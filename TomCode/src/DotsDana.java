@@ -2,7 +2,7 @@
      to use an inner class for the mouseListener.
      Author : Dana Bass
      Date written : 2/25/01
-     github is imposible
+     
  */
 import java.awt.*;
 import java.applet.*;

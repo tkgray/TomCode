@@ -1,57 +1,123 @@
-// Thomas Gray
-// Lesson 8
-// Space Ship java
-// java 111B
+/* Written by Thomas Gray
+ * 
+ */
+
 
 import java.awt.*;
 import java.applet.*;
 import java.awt.event.*;
+import java.util.Random;
 
 
-@SuppressWarnings("serial")
 public class SpaceShip extends Applet {
 	
-	// instance variables belong to SpaceShip applet
-	private Point clickPoint = null;
+	private Point clickPoint = null, mouseClick = null;
 	private final int APPLET_WIDTH = 800, APPLET_HEIGHT = 600;
 	private final int RADIUS = 64;
+	private Random generator;
+	private int randomX, randomY;
+	private boolean laserDone;
+	public int laserCount = 0, laserCountMod;
+	public String lineColor;
 	
-	// creates a listener for mouse events
-	public void init() {
-		this.addMouseMotionListener(new MouseL());
+	public void init()
+	{
+					
+		addMouseMotionListener (new MouseMotionHandler());
+		addMouseListener (new MouseHandler());
 		setBackground (Color.black);
 		setSize(APPLET_WIDTH, APPLET_HEIGHT);
-		
 	}
-
-	// Draws a dot that follows the mouse	
+	
+	// Draws a SpaceShip that follows the mouse	
 	public void paint(Graphics g) {
-		g.setColor(Color.green);
+		
+	    g.setColor(Color.green);
 		if (clickPoint != null)
 			g.fillOval(clickPoint.x - RADIUS, clickPoint.y - RADIUS,
 					RADIUS * 4, RADIUS * 2);
+
 	
-	}
+	// Draws the laser			
 
-	// Sets the point at which to draw the next dot	
-	public void setPoint(Point pnt) {
-		 clickPoint = pnt;
-	}
-
-	// MouseL is an inner class, designated as a mouseListener,
-	// which implements the MouseListener Interface	
-	private class MouseL implements MouseMotionListener {
-		// code only the method we need	
-
-		
-		public void mouseMoved(MouseEvent e) {
-			Point pnt = e.getPoint();
-			setPoint(pnt);// inner classes have access to members of enclosing class
-			repaint(); // requests JVM to call paint method	
+		if ( laserDone != true){
+						
+				generator = new Random();           //gets numbers for random laser lines
+			 	randomX = generator.nextInt(800);
+			 	randomY = generator.nextInt(600);
+				
+			 	laserCountMod = laserCount % 4;     // gets the mod for four colors
+			 	
+			 	switch (laserCountMod)             // draws the colors
+			 	{
+			 	case 0:
+			 		g.setColor(Color.yellow);
+			 		break;
+			 	case 1:
+			 		g.setColor(Color.red);
+			 		break;
+			 	case 2:
+			 		g.setColor(Color.white);
+			 		break;
+			 	case 3:
+			 		g.setColor(Color.orange);
+			 		break;
+			  	}
+				 	
+			 	g.drawLine (mouseClick.x, mouseClick.y, randomX, randomY); // the actual laser line
+			 			 			 	
+			 	laserCount++;                        // count of clicks
+			 	laserDone = true;                   // keeps the laser off when you move the spaceship
+			 			
 		}
-		// list the empty methods from the MouseMotionListener Interface
-		public void mouseDragged(MouseEvent e) {}
 	}
+
+	//--------------------------------------------------------
+    // MouseHandler is an inner class listening for mouse events
+    //--------------------------------------------------------
+   private class MouseHandler implements MouseListener
+   {
+	//--------------------------------------------------
+   	//  Captures the position at which the mouse is pushed.
+   	//---------------------------------------------------
+	public void mousePressed (MouseEvent event)
+   	{
+      	//	pointList.add(event.getPoint());
+			mouseClick = event.getPoint();
+			repaint();
+			laserDone = false;
+     }
+   	//-----------------------------------------------------
+	//  Provide empty definitions for unused event methods.
+   	//-----------------------------------------------------
+   	public void mouseClicked (MouseEvent event) {}
+   	public void mouseReleased (MouseEvent event) {}
+   	public void mouseEntered (MouseEvent event) {}
+   	public void mouseExited (MouseEvent event) {}
+    }
+
 	
+	
+	//--------------------------------------------------------
+    // MouseMotionHandler is an inner class listening for mouse 
+    // motion events
+    //--------------------------------------------------------
+   private class MouseMotionHandler implements MouseMotionListener
+   {
+	//------------------------------------------------------
+   	// Gets the current position of the mouse as it is dragged
+   	// and draws the line to create the rubberband effect
+   	//-------------------------------------------------------
+	public void mouseMoved (MouseEvent event)
+   	{
+      		clickPoint = event.getPoint();
+      		repaint();
+	}
+   	//----------------------------------------------------
+   	//  Provide empty definitions for unused event methods
+   	//----------------------------------------------------
+	public void mouseDragged (MouseEvent event) {}
+    }
+
 }
 
