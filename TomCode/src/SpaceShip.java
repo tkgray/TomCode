@@ -14,11 +14,12 @@ public class SpaceShip extends Applet {
 	private Point clickPoint = null, mouseClick = null;
 	private final int APPLET_WIDTH = 800, APPLET_HEIGHT = 600;
 	private final int RADIUS = 64;
-	private Random generator;
-	private int randomX, randomY;
-	private boolean laserDone;
+	public Random generator;
+	public int randomX, randomY;
+	public boolean laserDone;
 	public int laserCount = 0, laserCountMod;
 	public String lineColor;
+	public Button butn1 = new Button("Click to Reset Label Counter");
 	
 	public void init()
 	{
@@ -27,16 +28,20 @@ public class SpaceShip extends Applet {
 		addMouseListener (new MouseHandler());
 		setBackground (Color.black);
 		setSize(APPLET_WIDTH, APPLET_HEIGHT);
+		
+		butn1.addActionListener(new Butn1Handler());
+		add(butn1);
 	}
 	
 	// Draws a SpaceShip that follows the mouse	
 	public void paint(Graphics g) {
-		
+				
 	    g.setColor(Color.green);
 		if (clickPoint != null)
 			g.fillOval(clickPoint.x - RADIUS, clickPoint.y - RADIUS,
 					RADIUS * 4, RADIUS * 2);
-
+		
+	
 	
 	// Draws the laser			
 
@@ -68,9 +73,15 @@ public class SpaceShip extends Applet {
 			 			 			 	
 			 	laserCount++;                        // count of clicks
 			 	laserDone = true;                   // keeps the laser off when you move the spaceship
-			 			
+		 			
 		}
+		
+		g.setColor(Color.white);
+		g.drawString ("Count: " + laserCount, 5, 15);
+		
+		
 	}
+	
 
 	//--------------------------------------------------------
     // MouseHandler is an inner class listening for mouse events
@@ -82,8 +93,7 @@ public class SpaceShip extends Applet {
    	//---------------------------------------------------
 	public void mousePressed (MouseEvent event)
    	{
-      	//	pointList.add(event.getPoint());
-			mouseClick = event.getPoint();
+      		mouseClick = event.getPoint();
 			repaint();
 			laserDone = false;
      }
@@ -118,6 +128,12 @@ public class SpaceShip extends Applet {
    	//----------------------------------------------------
 	public void mouseDragged (MouseEvent event) {}
     }
+   
+   public class Butn1Handler implements ActionListener {
+       public void actionPerformed(ActionEvent e) {
+    	  laserCount = 0;
+       }
+   }
 
 }
 
