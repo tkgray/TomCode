@@ -92,10 +92,10 @@ public class TwoSorts extends Applet {
 	//******************************************************************************
 	
 	public void reorderSelection() {
-		int min = 0;
-		int temp;
+		int min = selectionCount;
+		int temp = 0;
 		
-		for (int scan = selectionCount; scan < selection.length; scan++) {
+		for (int scan = (selectionCount); scan < selection.length; scan++) {
 			if (selection[scan] < selection[min]) 
 				min = scan;
 			
