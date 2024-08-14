@@ -109,6 +109,7 @@ programs.steam = {
     packages = with pkgs; [
       kdePackages.kate
       kdePackages.kdeconnect-kde
+      kdePackages.partitionmanager
       thunderbird
       clementine
       vlc
