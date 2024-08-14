@@ -85,7 +85,7 @@ programs.steam = {
   fileSystems."/mnt/btrfs" = {
     device = "uuid=f43c29ac-8068-4435-ac3c-04881fcc3a8c"; # UUID for home drive
     fsType = "btrfs";     # or btrfs, xfs, etc.
-    options = [ "defaults" ];
+    options = [ "subvol=raid" ];
   };
 
 
