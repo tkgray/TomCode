@@ -146,6 +146,7 @@ programs.steam = {
    btop
    tuptime
    glances
+   btrfs-progs
   ];
 
   virtualisation.libvirtd.enable = true;
